@@ -18,9 +18,12 @@ function TextUpdaterNode({ data }) {
       <div>
         <label htmlFor="text">Text:</label>
         <input id="text" name="text" onChange={onChange} />
-        <input type="button" value="add Child"/>
+        <hr></hr>
+        <div>
+          <input type="button" value="add Child"/>
+        </div>
       </div>
-      <Handle type="source" position={Position.Bottom} id="a" style={handleStyle} />
+      
       <Handle type="source" position={Position.Bottom} id="b" />
     </div>
   );
