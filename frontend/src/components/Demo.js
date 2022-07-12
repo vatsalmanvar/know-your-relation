@@ -10,7 +10,12 @@ const rfStyle = {
 
 
 const nodeTypes = { textUpdater: TextUpdaterNode };
-let globalNodes = []
+let globalNodes = [{
+  id:'1', 
+  type: 'textUpdater', 
+  position: { x: 50, y: 50 }, 
+  data: { value: 123, child:0 }, 
+}]
 let globalCurrNode = {
   id:'1', 
   type: 'textUpdater', 
@@ -36,7 +41,7 @@ function TextUpdaterNode({ data }) {
       type:'textUpdater',
       position:{x:globalCurrNode.position.x,y:globalCurrNode.position.y+100},
       data:{ value:Math.random(), child:0},
-  });
+    });
     console.log('Clicked', globalNodes);
   }, []);
 
@@ -58,14 +63,7 @@ function TextUpdaterNode({ data }) {
 }
 
 function Flow() {
-    let [nodes, setNodes] = useState([
-      {
-        id:'1', 
-        type: 'textUpdater', 
-        position: { x: 50, y: 50 }, 
-        data: { value: 123, child:0 }, 
-      }
-    ]);
+    let [nodes, setNodes] = useState(globalNodes);
     let [edges, setEdges] = useState([]);  
     const [curNode, setCurNode] = useState(
       {
@@ -88,51 +86,41 @@ function Flow() {
       console.log('nodes: ',nodes);
     }
 
-    function test(){
-      console.log('test called');
-    }
+    const onNodeClick = useCallback((event, node) => {
+    console.log("onNodeClick");
+    setNodes((nodes)=>{
+      return [...globalNodes,];
+    },[]);
     
-    // var test = function() {
-    //   console.log('test called');
-    // };
-
-  //   const onNodeClick = useCallback((event, node) => {
-  //     // setCurNode(node);
-  //     // console.log("CurrNode: ", curNode);
-      
-  //     setNodes((nodes)=>{
-  //       console.log('clicked node id: ', curNode.id);
-  //       curNode.data.child = curNode.data.child+1;
-  //       return [...nodes,{
-  //           id: ((parseInt(curNode.id)*10) + curNode.data.child).toString(),
-  //           type:'textUpdater',
-  //           position:{x:curNode.position.x,y:curNode.position.y+100},
-  //           data:{ value:Math.random(), child:0},
-  //       }];
-  //   },[]);
-  //   console.log('init nodes',nodes);
-    
-  // //   setEdges((edges)=>{
-  // //     //console.log('click edge',edges);
-  // //     return [...edges,{
-  // //         id:Math.random(),
-  // //         source:node.id,
-  // //         target:node.id+node.data.child,
-  // //     }];
-  // // });
-  // })
-  const OnSubmit=()=>{  
-    console.log(nodes);
-  }  
+  })
+  
   const onNodeMouseEnter = useCallback((event, node)=> {
     globalNodes=nodes;
     globalCurrNode=node;
-    setCurNode(node);
-    //console.log("CurrNode: ", globalNodes);
+    //setCurNode(node);
+  });
+  const onNodeDragStop = useCallback((event, node) => {
+    globalNodes = nodes;
+  })
+  const onNodeMouseMove = useCallback((event, node) => {
+    globalNodes=nodes;  
+  //   setNodes((nodes)=>{
+  //       return [...globalNodes,];
+  //   },[]);
   });
   const onNodeMouseLeave = useCallback((event, node)=> {
-    nodes = globalNodes;
+    globalNodes = nodes;
+    setNodes((nodes)=>{
+      return [...globalNodes,];
+    },[]);
     console.log(" --- ------ CurrNode: ", nodes);
+    setEdges((edges)=>{
+      return [...edges,{
+          id:Math.random(),
+          source:node.id,
+          target:node.id+node.data.child,
+      }];
+    });
   });
   const onNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -150,8 +138,7 @@ function Flow() {
   return (
     <>
     <button value="test" onClick={FirstNode}>Start</button>
-    <button value="test" onClick={OnSubmit}>Submit</button>
-
+    
     <ReactFlow
     nodes={nodes}
     edges={edges}
@@ -159,13 +146,13 @@ function Flow() {
     onEdgesChange={onEdgesChange}
     onConnect={onConnect}
     nodeTypes={nodeTypes}
-    //onNodeClick={onNodeClick}
+    onNodeClick={onNodeClick}
     fitView
     style={rfStyle}
-    test={test}
-    //x={x}
     onNodeMouseEnter={onNodeMouseEnter}
     onNodeMouseLeave={onNodeMouseLeave}
+    onNodeMouseMove={onNodeMouseMove}
+    onNodeDragStop={onNodeDragStop}
     />
     </>
     );
