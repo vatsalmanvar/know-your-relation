@@ -4,24 +4,25 @@ import { Handle, Position } from 'react-flow-renderer';
 import './text-updater-node.css';
 
 const rfStyle = {
-  backgroundColor: '#B8CEFF',
+  backgroundColor: '#34495e',
 };
 
 
-
 const nodeTypes = { textUpdater: TextUpdaterNode };
+
 let globalNodes = [{
   id:'1', 
   type: 'textUpdater', 
   position: { x: 50, y: 50 }, 
   data: { value: 123, child:0 }, 
-}]
+}];
 let globalCurrNode = {
   id:'1', 
   type: 'textUpdater', 
   position: { x: 50, y: 50 }, 
   data: { value: 123, child:0 }, 
 };
+let globalEdges = [];
 
 
 let vatsal="manvar";
@@ -39,10 +40,15 @@ function TextUpdaterNode({ data }) {
     globalNodes.push({
       id: ((parseInt(globalCurrNode.id)*10) + globalCurrNode.data.child).toString(),
       type:'textUpdater',
-      position:{x:globalCurrNode.position.x,y:globalCurrNode.position.y+100},
+      position:{x:globalCurrNode.position.x, y:globalCurrNode.position.y+100},
       data:{ value:Math.random(), child:0},
     });
-    console.log('Clicked', globalNodes);
+    globalEdges.push({
+      id:((parseInt(globalCurrNode.id)*10) + globalCurrNode.data.child).toString(),
+      source: globalCurrNode.id.toString(),
+      target: ((parseInt(globalCurrNode.id)*10) + globalCurrNode.data.child).toString(),
+    })
+    console.log("Child Added");
   }, []);
 
   return (
@@ -53,7 +59,7 @@ function TextUpdaterNode({ data }) {
         <input id="text" name="text" onChange={onChange} />
         
         <div>
-          <input type="button" value="addChild" onClick={addChild}/>
+          <input id="addChildButton" type="button" value="addChild" onClick={addChild}/>
           <input type="button" value="Delete"/>
         </div>
       </div>
@@ -63,65 +69,47 @@ function TextUpdaterNode({ data }) {
 }
 
 function Flow() {
-    let [nodes, setNodes] = useState(globalNodes);
-    let [edges, setEdges] = useState([]);  
-    const [curNode, setCurNode] = useState(
-      {
-        id:'1', 
-        type: 'textUpdater', 
-        position: { x: 50, y: 50 }, 
-        data: { value: 123, child:0 }, 
-      }
-    );
-    //var currentnode = new TextUpdaterNode();
-    const FirstNode=()=>{
-      setNodes((nodes)=>{
-        return [...nodes,{
-          id:'1', 
-          type: 'textUpdater', 
-          position: { x: 50, y: 50 }, 
-          data: { value: 123, child:0 }, 
-        }]
-      })
-      console.log('nodes: ',nodes);
-    }
+  let [nodes, setNodes] = useState(globalNodes);
+  let [edges, setEdges] = useState([]);  
+    
 
-    const onNodeClick = useCallback((event, node) => {
-    console.log("onNodeClick");
+  const onNodeClick = useCallback((event, node) => {
     setNodes((nodes)=>{
       return [...globalNodes,];
     },[]);
-    
+    setEdges((edges)=>{
+      return [...globalEdges,];
+    },[]); 
+    console.log("onNodeClicked");
+    console.log(nodes);
+    console.log(edges);
   })
   
-  const onNodeMouseEnter = useCallback((event, node)=> {
-    globalNodes=nodes;
-    globalCurrNode=node;
-    //setCurNode(node);
-  });
+
   const onNodeDragStop = useCallback((event, node) => {
-    globalNodes = nodes;
+    globalNodes.map((item)=>{
+      if(node.id === item.id) {
+        item.position.x = node.position.x;
+        item.position.y = node.position.y;
+      }
+    });
+    console.log('onNodeDragStop');
+    
   })
-  const onNodeMouseMove = useCallback((event, node) => {
-    globalNodes=nodes;  
-  //   setNodes((nodes)=>{
-  //       return [...globalNodes,];
-  //   },[]);
+
+
+  const onNodeMouseEnter = useCallback((event, node)=> {
+    globalCurrNode=node;
+    console.log('onNodeMouseEnter');
   });
   const onNodeMouseLeave = useCallback((event, node)=> {
-    globalNodes = nodes;
     setNodes((nodes)=>{
       return [...globalNodes,];
     },[]);
-    console.log(" --- ------ CurrNode: ", nodes);
-    setEdges((edges)=>{
-      return [...edges,{
-          id:Math.random(),
-          source:node.id,
-          target:node.id+node.data.child,
-      }];
-    });
+    console.log('onNodeDragLeave');
   });
+
+
   const onNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
     [setNodes]
@@ -137,8 +125,6 @@ function Flow() {
 
   return (
     <>
-    <button value="test" onClick={FirstNode}>Start</button>
-    
     <ReactFlow
     nodes={nodes}
     edges={edges}
@@ -146,12 +132,15 @@ function Flow() {
     onEdgesChange={onEdgesChange}
     onConnect={onConnect}
     nodeTypes={nodeTypes}
-    onNodeClick={onNodeClick}
     fitView
     style={rfStyle}
+
+    onNodeClick={onNodeClick}
     onNodeMouseEnter={onNodeMouseEnter}
+    //onNodeMouseMove={onNodeMouseMove}
     onNodeMouseLeave={onNodeMouseLeave}
-    onNodeMouseMove={onNodeMouseMove}
+    //onNodeDragStart={onNodeDragStart}
+    //onNodeDrag={onNodeDrag}
     onNodeDragStop={onNodeDragStop}
     />
     </>
