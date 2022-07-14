@@ -38,15 +38,15 @@ function TextUpdaterNode({ data }) {
   const addChild = useCallback((evt)=>{
     globalCurrNode.data.child = globalCurrNode.data.child+1;
     globalNodes.push({
-      id: ((parseInt(globalCurrNode.id)*10) + globalCurrNode.data.child).toString(),
+      id: globalCurrNode.id + "-" + (globalCurrNode.data.child).toString(),
       type:'textUpdater',
       position:{x:globalCurrNode.position.x, y:globalCurrNode.position.y+100},
       data:{ value:Math.random(), child:0},
     });
     globalEdges.push({
-      id:((parseInt(globalCurrNode.id)*10) + globalCurrNode.data.child).toString(),
+      id: globalCurrNode.id + "-" + (globalCurrNode.data.child).toString(),
       source: globalCurrNode.id.toString(),
-      target: ((parseInt(globalCurrNode.id)*10) + globalCurrNode.data.child).toString(),
+      target: globalCurrNode.id + "-" + (globalCurrNode.data.child).toString(),
     })
     console.log("Child Added");
   }, []);
@@ -55,12 +55,32 @@ function TextUpdaterNode({ data }) {
     <div className="text-updater-node">
       <Handle type="target" position={Position.Top} />
       <div>
-        <label htmlFor="text">Text:</label>
-        <input id="text" name="text" onChange={onChange} />
         
+              <div class="flex-container">
+                <div class="flex-child magenta">
+                  <label class="text" htmlFor="text" >First Person</label>
+                  <input class="textcss" id="firstPersonName" name="text" onChange={onChange} />
+                  <input class="radio" type="radio" value="Male-Female" name="gender" /> Male-Female
+                  <br></br>
+                  <input class="button" id="addChildButton" type="button" value="Child" onClick={addChild}/>
+                </div>
+
+                <div class="flex-child green">
+                  <label class="text" htmlFor="text">Second Person</label>
+                  <input class="textcss" id="secondPersonName" name="text" onChange={onChange} />
+                  <input class="radio" type="radio" value="Female-Male" name="gender" /> Female-Male
+                  <br></br>
+                  <input class="button" type="button" value="Delete"/>
+                
+                </div>
+              </div>
+              
+              <div>
+                
+              </div>
+
         <div>
-          <input id="addChildButton" type="button" value="addChild" onClick={addChild}/>
-          <input type="button" value="Delete"/>
+          
         </div>
       </div>
       <Handle type="source" position={Position.Bottom} id="b" />
