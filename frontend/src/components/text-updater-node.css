@@ -30,7 +30,7 @@
 .flex-container {
   align-content: center;
   display: flex;
-  width: 190px;
+  width: 300px;
 }
 
 .flex-child {
@@ -62,19 +62,29 @@
   vertical-align: middle;
   border-radius: 3px;
   width: 80%;
-  height: 25px;
+  height: 33px;
   background-color: #ffffff;
   border: 1px solid #34495e;
   transition: all 0.2s ease-in-out 0s;
-  font-size: 18px;
+  font-size: 30px;
   line-height: 18px;
   font-weight: normal;
   text-align: center;
 }
 
-.button {
+.deletebutton {
   margin-left: 8px;
   margin-right: auto;
+  border: 1px solid rgb(223, 223, 223);
+  border-radius: 5px;
+  font-size: 10px;
+  height: 15px;
+  width: 40%;
+}
+
+.addchildbutton {
+  margin-top: 2px;
+  margin-left: 18px;
   border: 1px solid rgb(223, 223, 223);
   font-size: 10px;
   height: 17px;
