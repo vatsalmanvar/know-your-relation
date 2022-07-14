@@ -12,7 +12,7 @@ const nodeTypes = { textUpdater: TextUpdaterNode };
 let globalNodes = [{
   id:'1', 
   type: 'textUpdater', 
-  position: { x: 50, y: 50 }, 
+  position: { x: -500, y: -500 }, 
   data: { value: 123, child:0 ,FN:"xxx", SN:"yyy", male_female:true}}
 ];
 let globalCurrNode = {
@@ -48,7 +48,7 @@ function TextUpdaterNode({ data }) {
     globalNodes.push({
       id: globalCurrNode.id + "-" + (globalCurrNode.data.child).toString(),
       type:'textUpdater',
-      position:{x:globalCurrNode.position.x, y:globalCurrNode.position.y+100},
+      position:{x:globalCurrNode.position.x, y:globalCurrNode.position.y+250},
       data:{ value:Math.random(), child:0, FN:"xxx", SN:"yyy", male_female:true},
     });
     globalEdges.push({
@@ -59,27 +59,44 @@ function TextUpdaterNode({ data }) {
     console.log("Child Added");
   }, []);
 
+  const deleteNode = useCallback((evt)=>{
+    let x = [];
+    globalNodes.map((item)=>{
+      if(item.id.startsWith(globalCurrNode.id) == false){
+        x.push(item);
+      }
+    });
+    globalNodes=x;
+  }, []);
+
   return (
     <div className="text-updater-node">
       <Handle type="target" position={Position.Top} />
-      <div>
-              <div class="flex-container">
-                <div class="flex-child magenta">
-                  <label class="text" htmlFor="text" >First Person</label>
-                  <input class="textcss"id="firstPersonName" name="text" onChange={onChange1} />
+      <div>     
+                <input type="checkbox" value="xxx" onClick={handleChange}/>Is First Person Female?
+                <input className="deletebutton" type="button" value="Delete Node" onClick={deleteNode}/>
+                <br></br>
+                <br></br>
+                <label className="text" htmlFor="text" >First Person Name</label>
+                <input className="textcss"id="firstPersonName" name="text" onChange={onChange1} />
+                <label className="text" htmlFor="text">Second Person Name</label>
+                <input className="textcss" id="secondPersonName" name="text" onChange={onChange2} />
+                
+                
+                <input className="addchildbutton" id="addChildButton" type="button" value="Add Child" onClick={addChild}/>
+              
+              <div className="flex-container">
+                <div className="flex-child magenta">
+                  
                 </div>
 
-                <div class="flex-child green">
-                  <label class="text" htmlFor="text">Second Person</label>
-                  <input class="textcss" id="secondPersonName" name="text" onChange={onChange2} />
+                <div className ="flex-child green">
+                  
                 </div>
               </div>
               
               <div>
-              <input type="checkbox" onClick={handleChange}/>Is First Person Female
-              <input class="deletebutton" type="button" value="Delete Node"/>
-              <br></br>
-              <input class="addchildbutton" id="addChildButton" type="button" value="Add Child" onClick={addChild}/>
+              
               </div>
 
         <div>
@@ -94,7 +111,7 @@ function TextUpdaterNode({ data }) {
 function Flow() {
   let [nodes, setNodes] = useState(globalNodes);
   let [edges, setEdges] = useState([]);  
-    
+  
 
   const onNodeClick = useCallback((event, node) => {
     setNodes((nodes)=>{
@@ -109,33 +126,30 @@ function Flow() {
   const onNodeDrag = useCallback((event, node) => {
     globalCurrNode.position.x = node.position.x;
     globalCurrNode.position.y = node.position.y;
-    console.log('onNodeDrag');
   })
 
   const onNodeDragStop = useCallback((event, node) => {
     globalCurrNode.position.x = node.position.x;
     globalCurrNode.position.y = node.position.y;
-    setNodes((nodes)=>{
-      return [...globalNodes,];
-    },[]);
-    
     console.log('onNodeDragStop');
+    // setNodes((nodes)=>{
+    //   return [...globalNodes,];
+    // },[]);    
   })
 
   const onNodeMouseEnter = useCallback((event, node)=> {
     globalCurrNode=node;
-    console.log('onNodeMouseEnter');
+    console.log(globalCurrNode.id);
   });
   const onNodeMouseLeave = useCallback((event, node)=> {
     setNodes((nodes)=>{
       return [...globalNodes,];
     },[]);
-    console.log('onNodeDragLeave');
   });
 
 
   const onNodesChange = useCallback(
-    (changes) => setNodes((nds) => applyNodeChanges(changes, globalNodes)),
+    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
     [setNodes]
   );
   const onEdgesChange = useCallback(
@@ -151,7 +165,7 @@ function Flow() {
     globalNodes.map((item)=>{
       console.log(item.id, item.data.FN, item.data.SN, item.data.male_female);
     });
-    console.log(globalEdges);
+    console.log(globalNodes);
   }, []);
 
   return (
