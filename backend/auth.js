@@ -15,9 +15,9 @@ router.post("/", async (req, res) => {
 });
 
 router.post("/saveFamilyTree",async (req,res)=>{
-  const{familyName}=req.body;
+  const{familyName, globalNodes, globalEdges}=req.body;
   try{
-    const family=new familyschema({familyName});
+    const family=new familyschema({familyName, globalNodes, globalEdges});
     await family.save()
   }catch(err){
     console.log(err);

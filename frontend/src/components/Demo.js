@@ -168,7 +168,7 @@ function Flow() {
   const Commitfunction=async (e)=>{
     e.preventDefault();
     const familyName="khan";
-    axios.post('/saveFamilyTree',{familyName})
+    axios.post('/saveFamilyTree',{familyName, globalNodes, globalEdges})
       .then(res=>{console.log(res);console.log('save family success');navigate('/viewFamilyTree')}).catch(err=>{console.log(err);console.log('registration failed')})
     
     console.log("Trying to Commit");
