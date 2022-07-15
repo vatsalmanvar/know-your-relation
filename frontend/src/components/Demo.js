@@ -2,11 +2,11 @@ import { useCallback, useState } from 'react';
 import ReactFlow, { addEdge, applyEdgeChanges, applyNodeChanges } from 'react-flow-renderer';
 import { Handle, Position } from 'react-flow-renderer';
 import './text-updater-node.css';
-
+import axios from 'axios';
+import {useNavigate} from 'react-router-dom';
 const rfStyle = {
   backgroundColor: '#34495e',
 };
-
 const nodeTypes = { textUpdater: TextUpdaterNode };
 
 let globalNodes = [{
@@ -24,23 +24,24 @@ let globalCurrNode = {
 let globalEdges = [];
 
 
+
 function TextUpdaterNode({ data }) {
   
   const onChange1 = useCallback((evt) => {
     globalCurrNode.data.FN=evt.target.value;
-    console.log(globalCurrNode.data.FN);
+    //console.log(globalCurrNode.data.FN);
   }, []);
   const onChange2 = useCallback((evt) => {
     globalCurrNode.data.SN=evt.target.value;
-    console.log(globalCurrNode.data.SN);
+    //console.log(globalCurrNode.data.SN);
   }, []);
   const handleChange = event => {
     if (event.target.checked) {
       globalCurrNode.data.male_female = false;
-      console.log('false');
+      //console.log('false');
     } else {
       globalCurrNode.data.male_female = true;
-      console.log('true');
+      //console.log('true');
     }
   };
   const addChild = useCallback((evt)=>{
@@ -56,15 +57,16 @@ function TextUpdaterNode({ data }) {
       source: globalCurrNode.id.toString(),
       target: globalCurrNode.id + "-" + (globalCurrNode.data.child).toString(),
     })
-    console.log("Child Added");
+    //console.log("Child Added");
   }, []);
 
   const deleteNode = useCallback((evt)=>{
     let x = [];
     globalNodes.map((item)=>{
-      if(item.id.startsWith(globalCurrNode.id) == false){
+      if(item.id.startsWith(globalCurrNode.id) === false){
         x.push(item);
       }
+
     });
     globalNodes=x;
   }, []);
@@ -109,47 +111,41 @@ function TextUpdaterNode({ data }) {
 }
 
 function Flow() {
+  const navigate=useNavigate();
   let [nodes, setNodes] = useState(globalNodes);
   let [edges, setEdges] = useState([]);  
   
 
-  const onNodeClick = useCallback((event, node) => {
+  const onNodeClick = (event, node) => {
     setNodes((nodes)=>{
       return [...globalNodes,];
     },[]);
     setEdges((edges)=>{
       return [...globalEdges,];
     },[]); 
-  })
-  
-  
-  const onNodeDrag = useCallback((event, node) => {
-    globalCurrNode.position.x = node.position.x;
-    globalCurrNode.position.y = node.position.y;
-  })
+  }
 
-  const onNodeDragStop = useCallback((event, node) => {
+  const onNodeDragStop = (event, node) => {
     globalCurrNode.position.x = node.position.x;
     globalCurrNode.position.y = node.position.y;
-    console.log('onNodeDragStop');
+    //console.log('onNodeDragStop');
     // setNodes((nodes)=>{
     //   return [...globalNodes,];
     // },[]);    
-  })
+  }
 
-  const onNodeMouseEnter = useCallback((event, node)=> {
+  const onNodeMouseEnter = (event, node)=> {
     globalCurrNode=node;
-    console.log(globalCurrNode.id);
-  });
-  const onNodeMouseLeave = useCallback((event, node)=> {
+    //console.log(globalCurrNode.id);
+  };
+  const onNodeMouseLeave = (event, node)=> {
     setNodes((nodes)=>{
       return [...globalNodes,];
     },[]);
-  });
-
+  };
 
   const onNodesChange = useCallback(
-    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
+    (changes) => setNodes((nds) => applyNodeChanges(changes, globalNodes)),
     [setNodes]
   );
   const onEdgesChange = useCallback(
@@ -161,16 +157,27 @@ function Flow() {
     [setEdges]
   );
 
-  const printgnodes = useCallback((evt) => {
-    globalNodes.map((item)=>{
-      console.log(item.id, item.data.FN, item.data.SN, item.data.male_female);
-    });
-    console.log(globalNodes);
-  }, []);
+  // const printgnodes = useCallback((evt) => {
+  //   globalNodes.map((item)=>{
+  //     console.log(item.id, item.data.FN, item.data.SN, item.data.male_female);
+  //   });
+  //   //console.log(globalNodes);
+  // });
+  
+  
+  const Commitfunction=async (e)=>{
+    e.preventDefault();
+    const familyName="khan";
+    axios.post('/saveFamilyTree',{familyName})
+      .then(res=>{console.log(res);console.log('save family success');navigate('/viewFamilyTree')}).catch(err=>{console.log(err);console.log('registration failed')})
+    
+    console.log("Trying to Commit");
+  }
 
   return (
     <>
-    <button onClick={printgnodes}>Print All nodes details</button>
+    <button>Print All nodes details</button>
+    <button onClick={Commitfunction}>Commit</button>
     <ReactFlow
     nodes={nodes}
     edges={edges}
