@@ -1,5 +1,5 @@
+const axios=require('axios')
 const express = require("express");
-const f = require("./db");
 const familyschema = require("./models/familyschema");
 const router = express.Router();
 const db = require('./db');
@@ -19,12 +19,28 @@ router.post("/saveFamilyTree",async (req,res)=>{
   try{
     const family=new familyschema({familyName, globalNodes, globalEdges});
     await family.save()
+    console.log("family tree saved");
   }catch(err){
     console.log(err);
   }
 })
-router.post('/viewFamilyTree',(req,res)=>{
-  res.send({msg:"view tree"})
+router.post('/viewFamilyTree',async (req,res)=>{
+  const {familyName}=req.body;
+  console.log("recevied family is:",familyName)
+  try{
+    const FindFamily=await familyschema.findOne({familyName:familyName});
+    if(FindFamily){
+      console.log("Family found");
+      axios.get("/viewFamilyTree").then(res.send({FindFamily})).catch((err)=>{console.log(err);});
+      
+    }
+    else{
+      console.log("family not found ");
+    }
+  }catch(err){
+    console.log(err);
+  }
+  
   console.log("view tree")
 })
 module.exports = router;

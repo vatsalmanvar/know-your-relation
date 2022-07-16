@@ -4,11 +4,14 @@ import { Handle, Position } from 'react-flow-renderer';
 import './text-updater-node.css';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
+import home from './Home'
+import { globalFamilyName } from './Home';
 const rfStyle = {
   backgroundColor: '#34495e',
 };
 const nodeTypes = { textUpdater: TextUpdaterNode };
 
+let familyName;
 let globalNodes = [{
   id:'1', 
   type: 'textUpdater', 
@@ -22,7 +25,6 @@ let globalCurrNode = {
   data: { value: 123, child:0, FN:"abc", SN:"def", male_female:true}, 
 };
 let globalEdges = [];
-
 
 
 function TextUpdaterNode({ data }) {
@@ -45,6 +47,8 @@ function TextUpdaterNode({ data }) {
     }
   };
   const addChild = useCallback((evt)=>{
+    
+    console.log("family name is:",globalFamilyName);
     globalCurrNode.data.child = globalCurrNode.data.child+1;
     globalNodes.push({
       id: globalCurrNode.id + "-" + (globalCurrNode.data.child).toString(),
@@ -114,7 +118,7 @@ function Flow() {
   const navigate=useNavigate();
   let [nodes, setNodes] = useState(globalNodes);
   let [edges, setEdges] = useState([]);  
-  
+  //const [familyName,setFamilyName]=useState("");
 
   const onNodeClick = (event, node) => {
     setNodes((nodes)=>{
@@ -165,17 +169,34 @@ function Flow() {
   // });
   
   
+  //let familyName,fieldValue;
   const Commitfunction=async (e)=>{
     e.preventDefault();
-    const familyName="khan";
+    //const {familyName}=family
+    //const string_familyname = "manvar";
+    console.log(familyName);
+    //setFamilyName("manvar");
+    
     axios.post('/saveFamilyTree',{familyName, globalNodes, globalEdges})
       .then(res=>{console.log(res);console.log('save family success');navigate('/viewFamilyTree')}).catch(err=>{console.log(err);console.log('registration failed')})
     
     console.log("Trying to Commit");
   }
 
+  //let familyName_global;
+  // const handleInputs=(e)=>{
+  //     fieldName=e.target.name;
+  //     fieldValue=e.target.value;
+  //     setFamilyName({...familyName,[fieldName]:fieldValue})
+  // }
+
+  const onChangefmailyname = useCallback((evt) => {
+    familyName=evt.target.value;
+    //console.log(globalCurrNode.data.FN);
+  }, []);
   return (
     <>
+    <input type="text"  name="familyName"  className="form-control" id="exampleInputEmail1" onChange={onChangefmailyname}  aria-describedby="Help" placeholder="Enter family name"/>
     <button>Print All nodes details</button>
     <button onClick={Commitfunction}>Commit</button>
     <ReactFlow
@@ -198,3 +219,4 @@ function Flow() {
     );
 }
 export default Flow;     
+export {globalCurrNode};
