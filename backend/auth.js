@@ -26,13 +26,13 @@ router.post("/saveFamilyTree",async (req,res)=>{
 })
 router.post('/viewFamilyTree',async (req,res)=>{
   const {familyName}=req.body;
+  console.log(req.body);
   console.log("recevied family is:",familyName)
   try{
     const FindFamily=await familyschema.findOne({familyName:familyName});
     if(FindFamily){
       console.log("Family found");
-      axios.get("/viewFamilyTree").then(res.send({FindFamily})).catch((err)=>{console.log(err);});
-      
+      res.send(FindFamily);
     }
     else{
       console.log("family not found ");

@@ -1,29 +1,54 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState ,Commponent} from 'react'
 import axios from 'axios'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {  useNavigate } from 'react-router-dom';
+import ViewTree from './ViewTree';
+import treeContext from '../context/treeContext';
 
-let globalFamilyName="adani";
+let globalFamilyName;
 
 function Home() {
+    const a = useContext(treeContext);
+    //console.log(a.family);
     const [family,setFamily]=useState({
         familyName:''
     })
+   
     const navigate=useNavigate()
     let fieldName,fieldValue;
-    let fn="ambani";
     const handleInputs=(e)=>{
         fieldName=e.target.name;
         fieldValue=e.target.value;
-        globalFamilyName=e.target.value;
+        // globalFamilyName=e.target.value;
         setFamily({...family,[fieldName]:fieldValue})
     }
     const submit= async (e)=>{
+        
         e.preventDefault()
         const familyName=family;
         console.log(family); 
         console.log('You are in submit function');
-        axios.post('http://localhost:3000/viewFamilyTree',familyName).then(res=>{console.log(res);navigate('/viewFamilyTree')}).catch(err=>{console.log(err)})
+        console.log('requesting to backend')
+        axios.post('http://localhost:5000/viewFamilyTree',familyName)
+        .then((res)=>{
+          const response=res.data;
+          console.log("response from backend:",response);
+            setFamily({...family,[fieldName]:response})
+            console.log("family found",family);
+            globalFamilyName=response;
+            console.log("globalFamilyName: in home",globalFamilyName);
+            // const view=<ViewTree family={response}
+            // call back function to pass family name to view tree
+            a.familyName = globalFamilyName.familyName;
+            a.familyNodes = globalFamilyName.globalNodes;
+            a.familyEdges = globalFamilyName.globalEdges;
+            console.log("Below details is from context API");
+            console.log("Family Name", a.familyName);
+            console.log("Family Nodes", a.familyNodes);
+            console.log("Family Edges", a.familyEdges);
+          
+          })
+          .catch(err=>{console.log(err)})
     }
   return (
     <>
@@ -36,6 +61,7 @@ function Home() {
       <button type="submit" className="btn btn-primary mt-5" onClick={submit}>View</button>
       </form>
     </div>
+    
     
     </>
   )

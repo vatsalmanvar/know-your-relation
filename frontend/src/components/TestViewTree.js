@@ -28,7 +28,7 @@ let globalNodes = [
     data: { value: 123, child:0 ,FN:"Harshukh", SN:"Smita", male_female:true, relationFromPerson1:"-", relationFromPerson2:"-"}},
     {id:'1-1-1', 
     type: 'textUpdater', 
-    position: { x: -240, y: 600 }, 
+    position: { x: -250, y: 600 }, 
     data: { value: 123, child:0 ,FN:"Vatsal", SN:"", male_female:true, relationFromPerson1:"-", relationFromPerson2:"-"}},
 
 ];
