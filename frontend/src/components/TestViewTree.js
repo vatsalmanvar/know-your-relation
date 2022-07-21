@@ -1,62 +1,23 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useContext } from 'react';
 import ReactFlow, { addEdge, applyEdgeChanges, applyNodeChanges } from 'react-flow-renderer';
 import { Handle, Position } from 'react-flow-renderer';
 import './text-updater-node.css';
-
+import treeContext from '../context/treeContext';
+import { useLocation } from 'react-router-dom';
 const rfStyle = {
   backgroundColor: '#CEE5D0',
 };
 
 const nodeTypes = { textUpdater: TextUpdaterNode };
 
-let globalNodes = [
-    {id:'1', 
-    type: 'textUpdater', 
-    position: { x: 0, y: 0 }, 
-    data: { value: 123, child:0 ,FN:"Gangdas", SN:"Vijya", male_female:true, relationFromPerson1:"-", relationFromPerson2:"-"}},
-    {id:'1-1', 
-    type: 'textUpdater', 
-    position: { x: -250, y: 300 }, 
-    data: { value: 123, child:0 ,FN:"Kishor", SN:"Anjana", male_female:true, relationFromPerson1:"-", relationFromPerson2:"-"}},
-    {id:'1-2', 
-    type: 'textUpdater', 
-    position: { x: 0, y: 300 }, 
-    data: { value: 123, child:0 ,FN:"Rekha", SN:"Dilip", male_female:false, relationFromPerson1:"-", relationFromPerson2:"-"}},
-    {id:'1-3', 
-    type: 'textUpdater', 
-    position: { x: 250, y: 300 }, 
-    data: { value: 123, child:0 ,FN:"Harshukh", SN:"Smita", male_female:true, relationFromPerson1:"-", relationFromPerson2:"-"}},
-    {id:'1-1-1', 
-    type: 'textUpdater', 
-    position: { x: -250, y: 600 }, 
-    data: { value: 123, child:0 ,FN:"Vatsal", SN:"", male_female:true, relationFromPerson1:"-", relationFromPerson2:"-"}},
-
-];
+let globalNodes = []
 let globalCurrNode = {
   id:'1', 
   type: 'textUpdater', 
   position: { x: 50, y: 50 }, 
   data: { value: 123, child:0, FN:"abc", SN:"def", male_female:true}, 
 };
-let globalEdges = [
-    {
-        id:'1-1',
-        source:'1',
-        target:'1-1'},
-    {
-        id:'1-2',
-        source:'1',
-        target:'1-2'},
-    {
-        id:'1-3',
-        source:'1',
-        target:'1-3'},
-    {
-        id:'1-1-1',
-        source:'1-1',
-        target:'1-1-1'},
-];
-
+let globalEdges = []
 function TextUpdaterNode({ data }) {
 
   return (
@@ -78,10 +39,22 @@ function TextUpdaterNode({ data }) {
 }
 
 function TestViewTree() {
-  let [nodes, setNodes] = useState(globalNodes);
-  let [edges, setEdges] = useState(globalEdges);  
-
+  
+  const a = useContext(treeContext);
+  
+  const {state}=useLocation();
+  const {globalFamilyName}=state;
+  console.log("globalFamilyName: in view tree",globalFamilyName);
+  
+  let [nodes, setNodes] = useState(a.familyNodes);
+  let [edges, setEdges] = useState(a.familyEdges); 
+  globalNodes = nodes;
+  globalEdges = edges; 
+  console.log(nodes);
+  
+  
   const onNodeClick = (event, node) => {
+    
     // function to find the relationship
     // main logic begins ---------------------
     let depthOfNode = globalCurrNode.id.split('-').length;

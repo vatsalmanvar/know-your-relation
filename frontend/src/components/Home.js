@@ -3,6 +3,7 @@ import axios from 'axios'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {  useNavigate } from 'react-router-dom';
 import ViewTree from './ViewTree';
+import TestViewTree from './TestViewTree';
 import treeContext from '../context/treeContext';
 
 let globalFamilyName;
@@ -23,7 +24,7 @@ function Home() {
         setFamily({...family,[fieldName]:fieldValue})
     }
     const submit= async (e)=>{
-        
+      
         e.preventDefault()
         const familyName=family;
         console.log(family); 
@@ -46,7 +47,7 @@ function Home() {
             console.log("Family Name", a.familyName);
             console.log("Family Nodes", a.familyNodes);
             console.log("Family Edges", a.familyEdges);
-          
+            navigate('/TestViewTree',{state:{globalFamilyName:response}})
           })
           .catch(err=>{console.log(err)})
     }
