@@ -1,6 +1,6 @@
-const axios=require('axios')
 const express = require("express");
 const familyschema = require("./models/familyschema");
+const userschema=require("./models/userSchema")
 const router = express.Router();
 const db = require('./db');
 
@@ -14,6 +14,31 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.post("/register",async (req,res)=>{
+  const {email,password,cpassword}=req.body;
+  if(!email || !password || !cpassword){
+    res.json({'msg':"please fiill out all the details"})
+  }
+  try{
+    const useralreadyexist=await userschema.findOne({ email: email });
+    if(useralreadyexist){
+      res.send({'msg':"user already registered please sign in"})
+    }
+    else if(password!=cpassword){
+      res.json({'msg':"password and confrim password not matched"})
+  
+    }
+    else{
+      const a = new userschema({email,password})
+      await a.save();
+      res.send({'msg':"user registration successfull"});
+
+    }
+  }catch(err){
+    console.log(err);}
+
+  
+})
 router.post("/saveFamilyTree",async (req,res)=>{
   const{familyName, globalNodes, globalEdges}=req.body;
   try{

@@ -53,10 +53,14 @@ function Home() {
     }
   return (
     <>
+    <div className="d-inline-flex justify-content-end p-2">
+    <button>Sign in</button>
+    <button>Register</button>
+    </div>
     <div className="container my-5">
     <form>
       <div className="form-group">
-        <label htmlFor="exampleInputFamilyName1">enter  family name</label>
+        <label htmlFor="exampleInputFamilyName1">Enter  family name</label>
         <input type="text"  name="familyName"  className="form-control" id="exampleInputEmail1" onChange={handleInputs} aria-describedby="Help" placeholder="Enter family name"/>
       </div>
       <button type="submit" className="btn btn-primary mt-5" onClick={submit}>View</button>
