@@ -6,9 +6,11 @@ import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import home from './Home'
 import { globalFamilyName } from './Home';
+
 const rfStyle = {
   backgroundColor: '#34495e',
 };
+
 const nodeTypes = { textUpdater: TextUpdaterNode };
 
 let familyName;

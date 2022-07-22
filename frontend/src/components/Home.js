@@ -53,19 +53,31 @@ function Home() {
     }
   return (
     <>
-    <div className="d-inline-flex justify-content-end p-2">
-    <button>Sign in</button>
-    <button>Register</button>
-    </div>
-    <div className="container my-5">
-    <form>
-      <div className="form-group">
-        <label htmlFor="exampleInputFamilyName1">Enter  family name</label>
-        <input type="text"  name="familyName"  className="form-control" id="exampleInputEmail1" onChange={handleInputs} aria-describedby="Help" placeholder="Enter family name"/>
+    <div>
+      <div className="container my-5">
+        <div>
+          <button className="btn btn-secondary float-end me-4">Sign in</button>
+          <button className="btn btn-secondary float-end me-2">Register</button>
+        </div>
+        <span className='my-5' style={{fontFamily : 'fantasy'}}><h5>Welcome to</h5><h1>Know Your Relation</h1></span>
       </div>
-      <button type="submit" className="btn btn-primary mt-5" onClick={submit}>View</button>
-      </form>
+      </div>
+      
+      
+
+      <div className="container" >
+        <form className="form-inlineup">
+        
+        <input type="text"  name="familyName" className="form-control" id="exampleInputEmail1" onChange={handleInputs} aria-describedby="Help" placeholder="Enter family name"/>
+        <button type="submit" className="btn btn-primary mt-3" onClick={submit}>View</button>
+        
+        </form>
+      <div>
+      <img src='https://wallpaperaccess.com/full/320438.jpg' width={960} height={600} class="rounded mx-auto d-block" style={{boxSizing: "5px"}}></img>
+      </div>
+
     </div>
+    
     
     
     </>
