@@ -8,13 +8,6 @@ const familySchema = new Schema({
     password:{type:String, required:true},
     globalNodes:{type:Array, required:true},
     globalEdges:{type:Array, required:true},
-    tokens:[
-        {
-          token:{
-            type:String,required:true
-          },
-        }
-      ]
 });
   
 module.exports=mongoose.model('know your relation', familySchema);

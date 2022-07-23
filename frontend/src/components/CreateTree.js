@@ -1,10 +1,12 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useContext } from 'react';
 import ReactFlow, { addEdge, applyEdgeChanges, applyNodeChanges } from 'react-flow-renderer';
 import { Handle, Position } from 'react-flow-renderer';
 import './text-updater-node.css';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import home from './Home'
+import treeContext from '../context/treeContext';
 import { globalFamilyName } from './Home';
 
 const rfStyle = {
@@ -117,10 +119,15 @@ function TextUpdaterNode({ data }) {
 }
 
 function Flow() {
+  const {state}=useLocation();
+  const {email}=state;
+  const {password}=state;
+  const {newFamilyName}=state;
+  const {familyName}=newFamilyName;
+  const a = useContext(treeContext);
   const navigate=useNavigate();
   let [nodes, setNodes] = useState(globalNodes);
   let [edges, setEdges] = useState([]);  
-  //const [familyName,setFamilyName]=useState("");
 
   const onNodeClick = (event, node) => {
     setNodes((nodes)=>{
@@ -174,12 +181,8 @@ function Flow() {
   //let familyName,fieldValue;
   const Commitfunction=async (e)=>{
     e.preventDefault();
-    //const {familyName}=family
-    //const string_familyname = "manvar";
-    console.log(familyName);
-    //setFamilyName("manvar");
-    
-    axios.post('/saveFamilyTree',{familyName, globalNodes, globalEdges})
+    console.log(familyName, email, password);
+    axios.post('/saveFamilyTree',{familyName, email, password, globalNodes, globalEdges})
       .then(res=>{console.log(res);console.log('save family success');navigate('/viewFamilyTree')}).catch(err=>{console.log(err);console.log('registration failed')})
     
     console.log("Trying to Commit");
@@ -192,13 +195,8 @@ function Flow() {
   //     setFamilyName({...familyName,[fieldName]:fieldValue})
   // }
 
-  const onChangefmailyname = useCallback((evt) => {
-    familyName=evt.target.value;
-    //console.log(globalCurrNode.data.FN);
-  }, []);
   return (
     <>
-    <input type="text"  name="familyName"  className="form-control" id="exampleInputEmail1" onChange={onChangefmailyname}  aria-describedby="Help" placeholder="Enter family name"/>
     <button>Print All nodes details</button>
     <button onClick={Commitfunction}>Commit</button>
     <ReactFlow

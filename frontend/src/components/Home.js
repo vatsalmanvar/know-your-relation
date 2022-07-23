@@ -56,8 +56,8 @@ function Home() {
     <div>
       <div className="container my-5">
         <div>
-          <button className="btn btn-secondary float-end me-4">Sign in</button>
-          <button className="btn btn-secondary float-end me-2">Register</button>
+          <a href="/signin"><button className="btn btn-secondary float-end me-4" >Sign in</button></a>
+          <a href="/register"><button className="btn btn-secondary float-end me-2">Register</button></a>
         </div>
         <span className='my-5' style={{fontFamily : 'fantasy'}}><h5>Welcome to</h5><h1>Know Your Relation</h1></span>
       </div>

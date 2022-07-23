@@ -10,18 +10,37 @@ function Register() {
     const handleInputs=(e)=>{
         fieldName=e.target.name;
         fieldValue=e.target.value;
-        // globalFamilyName=e.target.value;
         setUser({...user,[fieldName]:fieldValue})
     }
     const submit= async (e)=>{
         e.preventDefault()
         const {email,password,cpassword}=user;
-        axios.post('http://localhost:5000/register',{email,password,cpassword})
-        .then((res)=>{
-            console.log("user register succsessfull");
-            navigate("/UserProfile");
-        })
-        .catch(err=>{console.log(err)});
+        function isValidEmail(email) {
+          return /\S+@\S+\.\S+/.test(email);
+        }
+        if(isValidEmail(email) === false){
+          alert('EMAIL is not valid')
+        }
+        else if(!password || !cpassword){
+          alert('PASSWORD can not be empty')
+        }
+        else if(!(password === cpassword)){
+          alert("PASSWORD doesn't match with CONFIRM PASSWORD");
+        }else{
+          axios.post('http://localhost:5000/register',{email,password,cpassword})
+          .then((res)=>{
+            console.log(res.status);
+            if(res.status===200){
+              navigate("/signin");
+            }
+          })
+          .catch(err=>{console.log(err);
+            if(err.response.status===666){
+              alert('User already exist, please SIGN IN');
+              navigate('/signin')
+            }
+          });
+        }
     }
   return (
     <>
@@ -35,7 +54,7 @@ function Register() {
             <div className="row justify-content-center">
               <div className="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
 
-                <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
+                <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Register</p>
 
                 <form className="mx-1 mx-md-4">
 
