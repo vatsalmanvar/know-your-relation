@@ -11,7 +11,7 @@ import TreeState from './context/TreeState';
 import UserProfile from './components/UserProfile';
 import SignIn from './components/SignIn';
 import Register from './components/Register';
-
+import ModifyTree from './components/ModifyTree';
 
 function App() {
   return (
@@ -22,6 +22,7 @@ function App() {
       <Route exact path='/TestViewTree' element={<TestViewTree/>}/>
       <Route exact path='/createFamilyTree' element={<CreateTree/>}/>
       <Route exact path='/viewFamilyTree' element={<ViewTree/>}/>
+      <Route exact path='/ModifyTree' element={<ModifyTree/>}/>
       <Route exact path='/testCreateTree' element={<TestCreateTree/>}/>
       <Route exact path='/UserProfile' element={<UserProfile/>}/>
       <Route exact path='/signin' element={<SignIn/>}/>

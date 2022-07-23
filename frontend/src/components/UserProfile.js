@@ -22,12 +22,13 @@ export default function UserProfile() {
             const {user, allFamily}=res.data;
             setFamilylist(user);
             setAllFamilyList(allFamily);
-            console.log("useEffect",familylist, allFamilyList);
         })
     },[]);
 
     function clickOnModify(index) {
         console.log(familylist[index], index);
+        let familyObj = familylist[index];
+        navigate('/ModifyTree', {state: {familyObj}})
     }
 
     let fieldName,fieldValue;
@@ -36,9 +37,21 @@ export default function UserProfile() {
         fieldValue=e.target.value;
         setNewFamilyName({...newFamilyName,[fieldName]:fieldValue})
     }
-    
+
     function clickOnNewFamily(){
-        navigate('/createFamilyTree', {state: {newFamilyName, email, password}});
+        let isFound = false;
+        allFamilyList.map((data)=>{
+            console.log(data.familyName, newFamilyName.familyName);
+            if(data.familyName==newFamilyName.familyName){
+                isFound = true;
+            }
+        });
+        if(isFound===true){
+            console.log("Founded");
+            alert('This FAMILY-NAME is already taken, Please try with another name like (surname_1 or surname_2)');
+        }else{
+            navigate('/createFamilyTree', {state: {newFamilyName, email, password}});
+        }
     }
 
   return (

@@ -71,6 +71,21 @@ router.post("/saveFamilyTree",async (req,res)=>{
     console.log(err);
   }
 })
+
+router.post("/modifyTree",async (req,res)=>{
+  const{familyName, email, password, globalNodes, globalEdges}=req.body;
+  console.log(familyName, email, password, globalNodes, globalEdges);
+  try{
+    const FindFamily=await familyschema.findOneAndDelete({familyName:familyName, email:email, password:password});
+    console.log(FindFamily);
+    const family=new familyschema({familyName, email, password, globalNodes, globalEdges});
+    await family.save()
+    console.log("family tree saved");
+  }catch(err){
+    console.log(err);
+  }
+})
+
 router.post('/viewFamilyTree',async (req,res)=>{
   const {familyName}=req.body;
   console.log(req.body);
