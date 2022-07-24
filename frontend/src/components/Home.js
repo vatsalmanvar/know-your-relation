@@ -63,9 +63,6 @@ function Home() {
         <span className='my-5' style={{fontFamily : 'fantasy'}}><h1>Know Your Relation</h1></span>
       </div>
       </div>
-      
-      
-
      
     <section className="vh-100" style={{"backgroundColor": "#eee"}}>
   <div className="container h-100">

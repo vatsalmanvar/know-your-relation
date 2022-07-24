@@ -21,24 +21,36 @@ function SignIn() {
     const submit= async (e)=>{
         e.preventDefault()
         const {email,password}=user;
-        axios.post('http://localhost:5000/signin',{email,password})
-        .then((res)=>{
-          if(res.status === 200){
-            console.log("user sign in succsessfull");
-            //
-              a.email = email;
-              a.password = password;
-              console.log("data in Context API", a.email, a.password);
-            //
-            navigate("/UserProfile",{state:{email,password}});
-          }
-          else{
-            alert("Wrong credential, please try again")
-          }
-        })
-        .catch(err=>{console.log(err)
-          alert("Wrong credential, please try again")
-        });
+        function isValidEmail(email) {
+          return /\S+@\S+\.\S+/.test(email);
+        }
+
+        if(email==='' && password===''){
+          alert('EMAIL and PASSWORD can not be empty')
+        }
+        else if(!email ){
+          alert('EMAIL can not be empty')
+        }
+        else if(!password){
+          alert('PASSWORD can not be empty')
+        }
+        else if(isValidEmail(email) === false){
+          alert('EMAIL is not valid')
+        }
+        else{
+          axios.post('http://localhost:5000/signin',{email,password})
+          .then((res)=>{
+            if(res.status === 200){
+              console.log("user sign in succsessfull");
+              navigate("/UserProfile",{state:{email,password}});
+            }
+          })
+          .catch(err=>{console.log(err)
+            alert("User doesn't exist OR Wrong Pasword, please try again")
+          });
+        }
+
+        
     }
   return (
     <>
