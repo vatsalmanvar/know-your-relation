@@ -56,7 +56,14 @@ So for any two members of the same family one of the relation will be defined An
 
 ## `View tree:-`
 
-![view-tree](https://user-images.githubusercontent.com/89090001/183378570-72ab10a2-34ce-4d0e-b85f-65c1a2cb3790.png)
+### basic view :
+![Screenshot (1807)](https://user-images.githubusercontent.com/89090001/183395694-b207bc55-493b-4117-b2d3-25df9092329f.png)
+
+### when you click on the particular person node ralation with respect to selected person is shown as per image below :
+
+![Screenshot (1808)](https://user-images.githubusercontent.com/89090001/183395717-85e8e060-0eb7-47f5-b14b-e037d7e616fa.png)
+
+![Screenshot (1809)](https://user-images.githubusercontent.com/89090001/183395744-663fe627-551b-4bfc-a437-5a224b28ff43.png)
 
 # Getting Started with Create React App
 
