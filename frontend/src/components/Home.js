@@ -30,7 +30,7 @@ function Home() {
         console.log(family); 
         console.log('You are in submit function');
         console.log('requesting to backend')
-        axios.post('http://localhost:5000/viewFamilyTree',familyName)
+        axios.post('http://localhost:5001/viewFamilyTree',familyName)
         .then((res)=>{
           const response=res.data;
           console.log("response from backend:",response);

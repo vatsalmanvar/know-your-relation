@@ -21,11 +21,29 @@
 // } 
 
 // module.exports = {run};
-const mongoose =require('mongoose');
-const MongoUri="mongodb://localhost:27017/kyr";
-const ConnectToMongo=()=>{
-    mongoose.connect(MongoUri).then(()=>{
+// const mongoose =require('mongoose');
+// const MongoUri="mongodb://localhost:27017/kyr";
+// const ConnectToMongo=()=>{
+//     mongoose.connect(MongoUri).then(()=>{
+//         console.log("connected to database mongo successfully");
+//     }).catch((err)=>console.log('connection failed'));
+// }
+// module.exports=ConnectToMongo;
+
+
+//mongodb user and password
+// username : vatsalmanvar_db_user
+// password : 4Xx2l20dl7TOny1h
+
+const mongoose = require('mongoose');
+const MongoUri = "mongodb+srv://vatsalmanvar_db_user:4Xx2l20dl7TOny1h@knowyourrelationcluster.yihvcdh.mongodb.net/?appName=KnowYourRelationCluster";
+const ConnectToMongo = async () => {
+    try {
+        await mongoose.connect(MongoUri);
         console.log("connected to database mongo successfully");
-    }).catch((err)=>console.log('connection failed'));
+    } catch (err) {
+        console.log('connection failed', err);
+    }
 }
-module.exports=ConnectToMongo;
+
+module.exports = ConnectToMongo;

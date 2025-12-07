@@ -27,7 +27,7 @@ function Register() {
         else if(!(password === cpassword)){
           alert("PASSWORD doesn't match with CONFIRM PASSWORD");
         }else{
-          axios.post('http://localhost:5000/register',{email,password,cpassword})
+          axios.post('http://localhost:5001/register',{email,password,cpassword})
           .then((res)=>{
             console.log(res.status);
             if(res.status===200){

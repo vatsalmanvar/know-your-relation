@@ -17,7 +17,7 @@ export default function UserProfile() {
     console.log("from state",email, password);
     
     useEffect(() => {
-        axios.post("http://localhost:5000/getfamilylist",{email,password})
+        axios.post("http://localhost:5001/getfamilylist",{email,password})
         .then((res)=>{
             const {user, allFamily}=res.data;
             setFamilylist(user);
