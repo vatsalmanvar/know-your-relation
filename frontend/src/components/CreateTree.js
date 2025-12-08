@@ -190,7 +190,7 @@ const findNonOverlappingPosition = (proposedPosition, existingNodes, excludeId =
 };
 
 
-function TextUpdaterNode({ data, id, position, onUpdateNode, onAddChild, onDeleteNode }) {
+function TextUpdaterNode({ data, id, position, onUpdateNode, onAddChild, onDeleteNode, onAddParent, isTopmost }) {
   const onChange1 = (evt) => {
     onUpdateNode(id, { FN: evt.target.value });
   };
@@ -211,6 +211,12 @@ function TextUpdaterNode({ data, id, position, onUpdateNode, onAddChild, onDelet
     }
   };
 
+  const addParent = () => {
+    if (onAddParent) {
+      onAddParent(id);
+    }
+  };
+
   const deleteNode = () => {
     if (onDeleteNode) {
       onDeleteNode(id);
@@ -220,6 +226,17 @@ function TextUpdaterNode({ data, id, position, onUpdateNode, onAddChild, onDelet
   return (
     <div className={`text-updater-node ${!data.male_female ? 'node-female' : 'node-male'}`}>
       <Handle type="target" position={Position.Top} />
+      {isTopmost && (
+        <button
+          className="add-parent-icon-button"
+          type="button"
+          onClick={addParent}
+          title="Add Parent"
+          aria-label="Add Parent"
+        >
+          ↑
+        </button>
+      )}
       <button
         className="delete-icon-button"
         type="button"
@@ -346,6 +363,127 @@ function Flow() {
             : node
         )
         .concat(newNode);
+    });
+  }, []);
+
+  const addParentNode = useCallback((topmostNodeId) => {
+    setNodes((nds) => {
+      // Find all topmost nodes (nodes without "-" in their ID)
+      const topmostNodes = nds.filter((node) => !node.id.includes('-'));
+      
+      if (topmostNodes.length === 0) return nds;
+
+      // Find the highest existing ID to create a new parent ID
+      const existingIds = nds.map((n) => {
+        const parts = n.id.split('-');
+        return parseInt(parts[0]) || 0;
+      });
+      const maxId = Math.max(...existingIds, 0);
+      const newParentId = `${maxId + 1}`;
+
+      // Calculate position for new parent (above the topmost nodes)
+      const topmostY = Math.min(...topmostNodes.map((n) => n.position.y));
+      const topmostX = topmostNodes.length === 1 
+        ? topmostNodes[0].position.x 
+        : topmostNodes.reduce((sum, n) => sum + n.position.x, 0) / topmostNodes.length;
+
+      const proposedPosition = {
+        x: topmostX,
+        y: topmostY - NODE_HEIGHT,
+      };
+
+      // Find a non-overlapping position
+      const safePosition = findNonOverlappingPosition(proposedPosition, nds);
+
+      // Create new parent node
+      const newParentNode = {
+        id: newParentId,
+        type: 'textUpdater',
+        position: safePosition,
+        data: {
+          value: Math.random(),
+          child: topmostNodes.length,
+          FN: '',
+          SN: '',
+          male_female: true,
+        },
+      };
+
+      // Create mapping of old IDs to new IDs for ALL nodes
+      // This shifts every node down one level in the hierarchy
+      const idMapping = {};
+      
+      // First, map topmost nodes to become children of new parent
+      topmostNodes.forEach((node, index) => {
+        const oldId = node.id;
+        const newChildId = `${newParentId}-${index + 1}`;
+        idMapping[oldId] = newChildId;
+      });
+
+      // Then, recursively update all descendant nodes
+      // For each node, if it starts with a topmost node ID, prepend the new parent ID
+      nds.forEach((node) => {
+        if (!idMapping[node.id]) {
+          // Check if this node is a descendant of any topmost node
+          for (const topmostNode of topmostNodes) {
+            if (node.id === topmostNode.id || node.id.startsWith(topmostNode.id + '-')) {
+              // This node is a descendant - shift it down
+              const topmostIndex = topmostNodes.findIndex((tn) => 
+                node.id === tn.id || node.id.startsWith(tn.id + '-')
+              );
+              if (topmostIndex !== -1) {
+                const topmostOldId = topmostNodes[topmostIndex].id;
+                const topmostNewId = idMapping[topmostOldId];
+                // Replace the old topmost ID with the new one
+                const newId = node.id.replace(topmostOldId, topmostNewId);
+                idMapping[node.id] = newId;
+              }
+              break;
+            }
+          }
+        }
+      });
+
+      // Update all nodes with new IDs
+      const updatedNodes = nds.map((node) => {
+        const newId = idMapping[node.id];
+        if (newId) {
+          return {
+            ...node,
+            id: newId,
+            data: {
+              ...node.data,
+            },
+          };
+        }
+        return node;
+      });
+
+      // Update edges separately
+      setEdges((eds) => {
+        // Update all edges with new node IDs
+        const updatedEdges = eds.map((edge) => {
+          const newSource = idMapping[edge.source] || edge.source;
+          const newTarget = idMapping[edge.target] || edge.target;
+          return {
+            ...edge,
+            id: `edge-${newSource}-${newTarget}`,
+            source: newSource,
+            target: newTarget,
+          };
+        });
+
+        // Add new edges from parent to all former topmost nodes
+        const newEdges = topmostNodes.map((_, index) => ({
+          id: `edge-${newParentId}-${newParentId}-${index + 1}`,
+          source: newParentId,
+          target: `${newParentId}-${index + 1}`,
+        }));
+
+        return [...updatedEdges, ...newEdges];
+      });
+
+      return [...updatedNodes, newParentNode];
     });
   }, []);
 
@@ -483,16 +621,23 @@ function Flow() {
     }
   };
 
-  const nodeTypesWithProps = useMemo(() => ({
-    textUpdater: (props) => (
-      <TextUpdaterNode
-        {...props}
-        onUpdateNode={updateNode}
-        onAddChild={addChildNode}
-        onDeleteNode={deleteNode}
-      />
-    ),
-  }), [updateNode, addChildNode, deleteNode]);
+  const nodeTypesWithProps = useMemo(() => {
+    return {
+      textUpdater: (props) => {
+        const isTopmost = !props.id.includes('-');
+        return (
+          <TextUpdaterNode
+            {...props}
+            onUpdateNode={updateNode}
+            onAddChild={addChildNode}
+            onDeleteNode={deleteNode}
+            onAddParent={addParentNode}
+            isTopmost={isTopmost}
+          />
+        );
+      },
+    };
+  }, [updateNode, addChildNode, deleteNode, addParentNode]);
 
   return (
     <>
