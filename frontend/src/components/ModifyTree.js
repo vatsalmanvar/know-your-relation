@@ -43,58 +43,55 @@ function TextUpdaterNode({ data, id, position, onUpdateNode, onAddChild, onDelet
   return (
     <div className="text-updater-node">
       <Handle type="target" position={Position.Top} />
-      <div>
-        <input
-          type="checkbox"
-          checked={!data.male_female}
-          onChange={handleChange}
-        />
-        Is First Person Female?
-        <input
-          className="deletebutton"
-          type="button"
-          value="Delete Node"
-          onClick={deleteNode}
-        />
-        <br />
-        <br />
-        <label className="text" htmlFor="text">
-          First Person Name
-        </label>
-        <input
-          className="textcss"
-          id="firstPersonName"
-          name="text"
-          value={data.FN || ''}
-          onChange={onChange1}
-        />
-        <label className="text" htmlFor="text">
-          {data.FN}
-        </label>
-        <label className="text" htmlFor="text">
-          Second Person Name
-        </label>
-        <input
-          className="textcss"
-          id="secondPersonName"
-          name="text"
-          value={data.SN || ''}
-          onChange={onChange2}
-        />
-        <label className="text" htmlFor="text">
-          {data.SN}
-        </label>
-        <input
-          className="addchildbutton"
-          id="addChildButton"
-          type="button"
-          value="Add Child"
-          onClick={addChild}
-        />
-        <div className="flex-container">
-          <div className="flex-child magenta"></div>
-          <div className="flex-child green"></div>
+      <button
+        className="delete-icon-button"
+        type="button"
+        onClick={deleteNode}
+        title="Delete Node"
+        aria-label="Delete Node"
+      >
+        ×
+      </button>
+      <div className="node-content">
+        <div className="checkbox-container">
+          <input
+            type="checkbox"
+            checked={!data.male_female}
+            onChange={handleChange}
+            id={`checkbox-${id}`}
+          />
+          <label htmlFor={`checkbox-${id}`} className="checkbox-label">
+            Female
+          </label>
         </div>
+        <div className="input-group">
+          <input
+            className="textcss"
+            id={`firstPersonName-${id}`}
+            name="firstPersonName"
+            placeholder="First Name"
+            value={data.FN || ''}
+            onChange={onChange1}
+          />
+        </div>
+        <div className="input-group">
+          <input
+            className="textcss"
+            id={`secondPersonName-${id}`}
+            name="secondPersonName"
+            placeholder="Second Name"
+            value={data.SN || ''}
+            onChange={onChange2}
+          />
+        </div>
+        <button
+          className="addchildbutton"
+          id={`addChildButton-${id}`}
+          type="button"
+          onClick={addChild}
+        >
+          + Add Child
+        </button>
       </div>
       <Handle type="source" position={Position.Bottom} id="b" />
     </div>
@@ -149,8 +146,8 @@ function ModifyTree() {
         data: {
           value: Math.random(),
           child: 0,
-          FN: 'xxx',
-          SN: 'yyy',
+          FN: '',
+          SN: '',
           male_female: true,
         },
       };
