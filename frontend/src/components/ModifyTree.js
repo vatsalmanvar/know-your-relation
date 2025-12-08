@@ -211,7 +211,7 @@ function TextUpdaterNode({ data, id, position, onUpdateNode, onAddChild, onDelet
   };
 
   return (
-    <div className="text-updater-node">
+    <div className={`text-updater-node ${!data.male_female ? 'node-female' : 'node-male'}`}>
       <Handle type="target" position={Position.Top} />
       <button
         className="delete-icon-button"
@@ -254,17 +254,17 @@ function TextUpdaterNode({ data, id, position, onUpdateNode, onAddChild, onDelet
             onChange={onChange2}
           />
         </div>
-        <button
-          className="add-child-icon-button"
-          id={`addChildButton-${id}`}
-          type="button"
-          onClick={addChild}
-          title="Add Child"
-          aria-label="Add Child"
-        >
-          +
-        </button>
       </div>
+      <button
+        className="add-child-icon-button"
+        id={`addChildButton-${id}`}
+        type="button"
+        onClick={addChild}
+        title="Add Child"
+        aria-label="Add Child"
+      >
+        +
+      </button>
       <Handle type="source" position={Position.Bottom} id="b" />
     </div>
   );

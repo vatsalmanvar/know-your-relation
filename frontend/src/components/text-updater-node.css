@@ -14,9 +14,31 @@
   overflow: visible;
 }
 
+/* Male node - more vibrant blue background */
+.text-updater-node.node-male {
+  background: #bbdefb;
+  border-color: #90caf9;
+}
+
+/* Female node - more vibrant pink background */
+.text-updater-node.node-female {
+  background: #f8bbd0;
+  border-color: #f48fb1;
+}
+
 .text-updater-node:hover {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   border-color: #d0d0d0;
+}
+
+.node-male:hover {
+  border-color: #64b5f6;
+  background: #90caf9;
+}
+
+.node-female:hover {
+  border-color: #ec407a;
+  background: #f48fb1;
 }
 
 /* Delete icon button - positioned in top right */
@@ -57,6 +79,7 @@
 /* Node content container */
 .node-content {
   margin-top: 0;
+  padding-bottom: 40px; /* Space for bottom plus button */
 }
 
 /* Checkbox container */
@@ -138,9 +161,12 @@
   font-weight: 400 !important;
 }
 
-/* Add child icon button - minimalist plus symbol */
+/* Add child icon button - minimalist plus symbol at bottom */
 .add-child-icon-button {
-  margin-top: 6px;
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
   border: 1px solid #e0e0e0;
   border-radius: 50%;
   font-size: 20px;
@@ -156,19 +182,18 @@
   justify-content: center;
   padding: 0;
   line-height: 1;
-  margin-left: auto;
-  margin-right: auto;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  z-index: 5;
 }
 
 .add-child-icon-button:hover {
   background: #667eea;
   color: white;
   border-color: #667eea;
-  transform: scale(1.1);
+  transform: translateX(-50%) scale(1.1);
   box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
 }
 
 .add-child-icon-button:active {
-  transform: scale(0.95);
+  transform: translateX(-50%) scale(0.95);
 }
