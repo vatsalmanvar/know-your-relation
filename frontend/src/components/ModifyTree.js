@@ -230,15 +230,17 @@ function TextUpdaterNode({ data, id, position, onUpdateNode, onAddChild, onDelet
           ↑
         </button>
       )}
-      <button
-        className="delete-icon-button"
-        type="button"
-        onClick={deleteNode}
-        title="Delete Node"
-        aria-label="Delete Node"
-      >
-        ×
-      </button>
+      {!isTopmost && (
+        <button
+          className="delete-icon-button"
+          type="button"
+          onClick={deleteNode}
+          title="Delete Node"
+          aria-label="Delete Node"
+        >
+          ×
+        </button>
+      )}
       <div className="node-content">
         <div className="checkbox-container">
         <input
