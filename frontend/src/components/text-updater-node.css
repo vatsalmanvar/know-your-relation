@@ -1,48 +1,36 @@
 .text-updater-node {
   font-size: 12px;
   height: auto;
-  min-width: 180px;
-  max-width: 220px;
-  border: 1.5px solid #e8e8e8;
-  padding: 14px;
-  border-radius: 10px;
+  min-width: 160px;
+  max-width: 200px;
+  border: 1px solid #e0e0e0;
+  padding: 12px;
+  border-radius: 8px;
   background: #ffffff;
   align-self: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: all 0.25s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
   position: relative;
   overflow: visible;
 }
 
-.text-updater-node::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-  border-radius: 10px 10px 0 0;
-}
-
 .text-updater-node:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   border-color: #d0d0d0;
 }
 
 /* Delete icon button - positioned in top right */
 .delete-icon-button {
   position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 24px;
-  height: 24px;
+  top: 6px;
+  right: 6px;
+  width: 20px;
+  height: 20px;
   border: none;
   border-radius: 50%;
-  background: #f5f5f5;
+  background: transparent;
   color: #999;
-  font-size: 20px;
+  font-size: 18px;
   line-height: 1;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -52,13 +40,14 @@
   padding: 0;
   z-index: 10;
   font-weight: 300;
+  opacity: 0.6;
 }
 
 .delete-icon-button:hover {
   background: #ff4444;
   color: white;
+  opacity: 1;
   transform: scale(1.1);
-  box-shadow: 0 2px 6px rgba(255, 68, 68, 0.3);
 }
 
 .delete-icon-button:active {
@@ -67,29 +56,29 @@
 
 /* Node content container */
 .node-content {
-  margin-top: 4px;
+  margin-top: 0;
 }
 
 /* Checkbox container */
 .checkbox-container {
   display: flex;
   align-items: center;
-  gap: 6px;
-  margin-bottom: 10px;
+  gap: 5px;
+  margin-bottom: 8px;
 }
 
 .checkbox-label {
-  font-size: 11px;
-  color: #666;
-  font-weight: 500;
+  font-size: 10px;
+  color: #888;
+  font-weight: 400;
   cursor: pointer;
   margin: 0;
   user-select: none;
 }
 
 .text-updater-node input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   cursor: pointer;
   accent-color: #667eea;
   margin: 0;
@@ -97,20 +86,20 @@
 
 /* Input group */
 .input-group {
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .textcss {
-  padding: 8px 10px;
-  border-radius: 6px;
+  padding: 6px 8px;
+  border-radius: 4px;
   width: 100%;
-  height: 36px;
+  height: 32px;
   background-color: #fafafa;
-  border: 1.5px solid #e0e0e0;
+  border: 1px solid #e0e0e0;
   transition: all 0.2s ease;
-  font-size: 13px;
-  line-height: 20px;
-  font-weight: 500;
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 400;
   text-align: center;
   color: #2c3e50;
   box-sizing: border-box;
@@ -120,7 +109,7 @@
   outline: none;
   border-color: #667eea;
   background-color: #ffffff;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.08);
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
 }
 
 .textcss::placeholder {
@@ -128,30 +117,58 @@
   font-weight: 400;
 }
 
-/* Add child button */
-.addchildbutton {
-  margin-top: 8px;
-  border: none;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 600;
+/* Highlight person names */
+.person-name {
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  color: #1a1a1a !important;
+  background-color: #f8f9ff !important;
+  border: 1.5px solid #e0e4ff !important;
+}
+
+.person-name:focus {
+  background-color: #ffffff !important;
+  border-color: #667eea !important;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15) !important;
+  color: #1a1a1a !important;
+}
+
+.person-name::placeholder {
+  color: #999 !important;
+  font-weight: 400 !important;
+}
+
+/* Add child icon button - minimalist plus symbol */
+.add-child-icon-button {
+  margin-top: 6px;
+  border: 1px solid #e0e0e0;
+  border-radius: 50%;
+  font-size: 20px;
+  font-weight: 300;
   height: 32px;
-  width: 100%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  width: 32px;
+  background: #ffffff;
+  color: #667eea;
   cursor: pointer;
   transition: all 0.2s ease;
-  letter-spacing: 0.3px;
-  box-shadow: 0 2px 4px rgba(102, 126, 234, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  line-height: 1;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-.addchildbutton:hover {
-  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
-  transform: translateY(-1px);
+.add-child-icon-button:hover {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
+  transform: scale(1.1);
+  box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
 }
 
-.addchildbutton:active {
-  transform: translateY(0);
-  box-shadow: 0 1px 3px rgba(102, 126, 234, 0.2);
+.add-child-icon-button:active {
+  transform: scale(0.95);
 }
