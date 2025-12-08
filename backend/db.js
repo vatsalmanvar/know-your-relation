@@ -1,49 +1,28 @@
-// const MongoClient = require('mongodb').MongoClient;
-// // Replace the uri string with your MongoDB deployment's connection string.
-// const uri = "mongodb://localhost:27017";
-// const client = new MongoClient(uri);
-
-// async function run ( ) {
-//   try {
-//     await client.connect();
-//     const database = client.db("kyr");
-//     const coll = database.collection("know your relation");
-//     // Query for a movie that has the title 'The Room'
-//     // const query = { familyName: queryfamilyname };
-//     // const family = await coll.findOne(query);
-//     // since this method returns the matched document, not a cursor, print it directly
-//     // console.log(family); 
-//     // if(family!=null) return 1;
-//     console.log("connection success");
-//   } finally {
-//     await client.close();
-//   }
-// } 
-
-// module.exports = {run};
-// const mongoose =require('mongoose');
-// const MongoUri="mongodb://localhost:27017/kyr";
-// const ConnectToMongo=()=>{
-//     mongoose.connect(MongoUri).then(()=>{
-//         console.log("connected to database mongo successfully");
-//     }).catch((err)=>console.log('connection failed'));
-// }
-// module.exports=ConnectToMongo;
-
-
-//mongodb user and password
-// username : vatsalmanvar_db_user
-// password : 4Xx2l20dl7TOny1h
-
 const mongoose = require('mongoose');
-const MongoUri = "mongodb+srv://vatsalmanvar_db_user:4Xx2l20dl7TOny1h@knowyourrelationcluster.yihvcdh.mongodb.net/?appName=KnowYourRelationCluster";
-const ConnectToMongo = async () => {
-    try {
-        await mongoose.connect(MongoUri);
-        console.log("connected to database mongo successfully");
-    } catch (err) {
-        console.log('connection failed', err);
-    }
-}
+const config = require('./config/config');
 
-module.exports = ConnectToMongo;
+const connectToMongo = async () => {
+  try {
+    // Mongoose 6+ has useNewUrlParser and useUnifiedTopology enabled by default
+    await mongoose.connect(config.mongodb.uri);
+    
+    if (config.nodeEnv !== 'test') {
+      console.log('✓ Connected to MongoDB successfully');
+    }
+
+    mongoose.connection.on('error', (err) => {
+      console.error('MongoDB connection error:', err);
+    });
+
+    mongoose.connection.on('disconnected', () => {
+      console.warn('MongoDB disconnected');
+    });
+
+    return mongoose.connection;
+  } catch (err) {
+    console.error('MongoDB connection failed:', err.message);
+    throw err;
+  }
+};
+
+module.exports = connectToMongo;

@@ -1,13 +1,8 @@
-import { useCallback, useState, useContext } from 'react';
+import { useCallback, useState, useRef } from 'react';
 import ReactFlow, { addEdge, applyEdgeChanges, applyNodeChanges } from 'react-flow-renderer';
 import { Handle, Position } from 'react-flow-renderer';
 import './text-updater-node.css';
 import { useLocation } from 'react-router-dom';
-import axios from 'axios';
-import {useNavigate} from 'react-router-dom';
-import home from './Home'
-import treeContext from '../context/treeContext';
-import { globalFamilyName } from './Home';
 
 const rfStyle = {
   backgroundColor: '#34495e',
@@ -53,8 +48,6 @@ function TextUpdaterNode(props) {
     }
   };
   const addChild = useCallback((evt)=>{
-    
-    console.log("family name is:",globalFamilyName);
     globalCurrNode.data.child = globalCurrNode.data.child+1;
     globalNodes.push({
       id: globalCurrNode.id + "-" + (globalCurrNode.data.child).toString(),
