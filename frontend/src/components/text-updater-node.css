@@ -1,116 +1,149 @@
 .text-updater-node {
   font-size: 12px;
   height: auto;
-  min-width: 160px;
-  max-width: 200px;
-  border: 1px solid #e0e0e0;
-  padding: 12px;
-  border-radius: 8px;
-  background: #ffffff;
+  min-width: 180px;
+  max-width: 220px;
+  border: none;
+  padding: 20px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   align-self: center;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  transition: all 0.2s ease;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    0 2px 8px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: visible;
 }
 
-/* Male node - more vibrant blue background */
+/* Male node - modern blue gradient with glassmorphism */
 .text-updater-node.node-male {
-  background: #bbdefb;
-  border-color: #90caf9;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(59, 130, 246, 0.12) 100%);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  box-shadow: 
+    0 8px 32px rgba(99, 102, 241, 0.15),
+    0 2px 8px rgba(59, 130, 246, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
-/* Female node - more vibrant pink background */
+/* Female node - modern pink gradient with glassmorphism */
 .text-updater-node.node-female {
-  background: #f8bbd0;
-  border-color: #f48fb1;
+  background: linear-gradient(135deg, rgba(236, 72, 153, 0.15) 0%, rgba(244, 114, 182, 0.12) 100%);
+  border: 1px solid rgba(236, 72, 153, 0.2);
+  box-shadow: 
+    0 8px 32px rgba(236, 72, 153, 0.15),
+    0 2px 8px rgba(244, 114, 182, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 .text-updater-node:hover {
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  border-color: #d0d0d0;
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 
+    0 16px 48px rgba(0, 0, 0, 0.12),
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 .node-male:hover {
-  border-color: #64b5f6;
-  background: #90caf9;
+  border-color: rgba(99, 102, 241, 0.4);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(59, 130, 246, 0.18) 100%);
+  box-shadow: 
+    0 16px 48px rgba(99, 102, 241, 0.25),
+    0 4px 12px rgba(59, 130, 246, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 .node-female:hover {
-  border-color: #ec407a;
-  background: #f48fb1;
+  border-color: rgba(236, 72, 153, 0.4);
+  background: linear-gradient(135deg, rgba(236, 72, 153, 0.2) 0%, rgba(244, 114, 182, 0.18) 100%);
+  box-shadow: 
+    0 16px 48px rgba(236, 72, 153, 0.25),
+    0 4px 12px rgba(244, 114, 182, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 /* Add parent icon button - positioned in top center */
 .add-parent-icon-button {
   position: absolute;
-  top: 6px;
+  top: 8px;
   left: 50%;
   transform: translateX(-50%);
-  width: 24px;
-  height: 24px;
-  border: 1px solid #e0e0e0;
+  width: 28px;
+  height: 28px;
+  border: none;
   border-radius: 50%;
-  background: #ffffff;
-  color: #667eea;
-  font-size: 16px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+  backdrop-filter: blur(10px);
+  color: #6366f1;
+  font-size: 18px;
   line-height: 1;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
   z-index: 10;
-  font-weight: 300;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  font-weight: 400;
+  box-shadow: 
+    0 4px 12px rgba(99, 102, 241, 0.15),
+    0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .add-parent-icon-button:hover {
-  background: #667eea;
+  background: linear-gradient(135deg, #6366f1 0%, #3b82f6 100%);
   color: white;
-  border-color: #667eea;
-  transform: translateX(-50%) scale(1.1);
-  box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
+  transform: translateX(-50%) scale(1.15) translateY(-2px);
+  box-shadow: 
+    0 8px 20px rgba(99, 102, 241, 0.4),
+    0 2px 6px rgba(59, 130, 246, 0.3);
 }
 
 .add-parent-icon-button:active {
-  transform: translateX(-50%) scale(0.95);
+  transform: translateX(-50%) scale(1.05);
 }
 
 /* Delete icon button - positioned in top right */
 .delete-icon-button {
   position: absolute;
-  top: 6px;
-  right: 6px;
-  width: 20px;
-  height: 20px;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
   border: none;
   border-radius: 50%;
-  background: transparent;
-  color: #999;
-  font-size: 18px;
+  background: rgba(239, 68, 68, 0.1);
+  backdrop-filter: blur(10px);
+  color: #ef4444;
+  font-size: 20px;
   line-height: 1;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
   z-index: 10;
-  font-weight: 300;
-  opacity: 0.6;
+  font-weight: 400;
+  opacity: 0.8;
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.15);
 }
 
 .delete-icon-button:hover {
-  background: #ff4444;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
   color: white;
   opacity: 1;
-  transform: scale(1.1);
+  transform: scale(1.15) translateY(-2px);
+  box-shadow: 
+    0 6px 16px rgba(239, 68, 68, 0.4),
+    0 2px 4px rgba(220, 38, 38, 0.3);
 }
 
 .delete-icon-button:active {
-  transform: scale(0.95);
+  transform: scale(1.05);
 }
 
 /* Node content container */
@@ -123,114 +156,212 @@
 .checkbox-container {
   display: flex;
   align-items: center;
-  gap: 5px;
-  margin-bottom: 8px;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 6px 10px;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .checkbox-label {
-  font-size: 10px;
-  color: #888;
-  font-weight: 400;
+  font-size: 11px;
+  color: #6b7280;
+  font-weight: 500;
   cursor: pointer;
   margin: 0;
   user-select: none;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
 }
 
 .text-updater-node input[type="checkbox"] {
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   cursor: pointer;
-  accent-color: #667eea;
+  accent-color: #6366f1;
   margin: 0;
+  border-radius: 4px;
 }
 
 /* Input group */
 .input-group {
-  margin-bottom: 6px;
+  margin-bottom: 10px;
+}
+
+/* Modern styling for text labels in view mode */
+.text-updater-node > div {
+  display: block;
+}
+
+.text-updater-node .text {
+  color: #1f2937;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  margin: 0;
+}
+
+/* Make name label (with h3) and relation label (with h5) appear on same line */
+.text-updater-node .text:nth-child(1) {
+  display: inline-block;
+  width: calc(100% - 110px);
+  vertical-align: middle;
+}
+
+.text-updater-node .text:nth-child(2) {
+  display: inline-block;
+  width: 100px;
+  vertical-align: middle;
+  text-align: right;
+  margin-left: 10px;
+}
+
+.text-updater-node .text:nth-child(4) {
+  display: inline-block;
+  width: calc(100% - 110px);
+  vertical-align: middle;
+}
+
+.text-updater-node .text:nth-child(5) {
+  display: inline-block;
+  width: 100px;
+  vertical-align: middle;
+  text-align: right;
+  margin-left: 10px;
+}
+
+.text-updater-node h3 {
+  margin: 8px 0 4px 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.3px;
+  text-align: left;
+  display: block;
+}
+
+.text-updater-node h5 {
+  margin: 4px 0 8px 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: right;
+  display: block;
+}
+
+.text-updater-node hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1), transparent);
+  margin: 12px 0;
 }
 
 .textcss {
-  padding: 6px 8px;
-  border-radius: 4px;
+  padding: 10px 12px;
+  border-radius: 12px;
   width: 100%;
-  height: 32px;
-  background-color: #fafafa;
-  border: 1px solid #e0e0e0;
-  transition: all 0.2s ease;
-  font-size: 12px;
-  line-height: 18px;
-  font-weight: 400;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1.5px solid rgba(0, 0, 0, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 500;
   text-align: center;
-  color: #2c3e50;
+  color: #1f2937;
   box-sizing: border-box;
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.04),
+    0 1px 2px rgba(0, 0, 0, 0.02);
 }
 
 .textcss:focus {
   outline: none;
-  border-color: #667eea;
-  background-color: #ffffff;
-  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+  border-color: rgba(99, 102, 241, 0.5);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 
+    0 0 0 4px rgba(99, 102, 241, 0.1),
+    inset 0 2px 4px rgba(0, 0, 0, 0.04),
+    0 2px 8px rgba(99, 102, 241, 0.15);
+  transform: translateY(-1px);
 }
 
 .textcss::placeholder {
-  color: #bbb;
+  color: #9ca3af;
   font-weight: 400;
 }
 
 /* Highlight person names */
 .person-name {
   font-weight: 600 !important;
-  font-size: 13px !important;
-  color: #1a1a1a !important;
-  background-color: #f8f9ff !important;
-  border: 1.5px solid #e0e4ff !important;
+  font-size: 14px !important;
+  color: #111827 !important;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(59, 130, 246, 0.06) 100%) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1.5px solid rgba(99, 102, 241, 0.2) !important;
+  box-shadow: 
+    inset 0 2px 4px rgba(99, 102, 241, 0.05),
+    0 1px 2px rgba(0, 0, 0, 0.03) !important;
 }
 
 .person-name:focus {
-  background-color: #ffffff !important;
-  border-color: #667eea !important;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15) !important;
-  color: #1a1a1a !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-color: rgba(99, 102, 241, 0.6) !important;
+  box-shadow: 
+    0 0 0 4px rgba(99, 102, 241, 0.15),
+    inset 0 2px 4px rgba(0, 0, 0, 0.04),
+    0 4px 12px rgba(99, 102, 241, 0.2) !important;
+  color: #111827 !important;
+  transform: translateY(-1px) !important;
 }
 
 .person-name::placeholder {
-  color: #999 !important;
+  color: #6b7280 !important;
   font-weight: 400 !important;
 }
 
 /* Add child icon button - minimalist plus symbol at bottom */
 .add-child-icon-button {
   position: absolute;
-  bottom: 8px;
+  bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
-  border: 1px solid #e0e0e0;
+  border: none;
   border-radius: 50%;
-  font-size: 20px;
-  font-weight: 300;
-  height: 32px;
-  width: 32px;
-  background: #ffffff;
-  color: #667eea;
+  font-size: 22px;
+  font-weight: 400;
+  height: 36px;
+  width: 36px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+  backdrop-filter: blur(10px);
+  color: #6366f1;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
   line-height: 1;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: 
+    0 4px 12px rgba(99, 102, 241, 0.15),
+    0 1px 3px rgba(0, 0, 0, 0.1);
   z-index: 5;
 }
 
 .add-child-icon-button:hover {
-  background: #667eea;
+  background: linear-gradient(135deg, #6366f1 0%, #3b82f6 100%);
   color: white;
-  border-color: #667eea;
-  transform: translateX(-50%) scale(1.1);
-  box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
+  transform: translateX(-50%) scale(1.15) translateY(-2px);
+  box-shadow: 
+    0 8px 20px rgba(99, 102, 241, 0.4),
+    0 2px 6px rgba(59, 130, 246, 0.3);
 }
 
 .add-child-icon-button:active {
-  transform: translateX(-50%) scale(0.95);
+  transform: translateX(-50%) scale(1.05);
 }
+
